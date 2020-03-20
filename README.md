@@ -70,7 +70,7 @@ getnextword() psuedo code
 function name: getnextword()
 input: none
 
-	for current word position
+for current word position
 	word position +1
 	scanner(<input file.txt>) // call scanner 
 	if end of file
