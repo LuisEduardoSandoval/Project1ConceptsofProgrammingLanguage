@@ -30,7 +30,7 @@ word position: position of word
 
 
 scanner psuedo code:
-function: scanner
+function: scanner //missing number, etc..
 input: <file.txt>
 
 while there is more to read in <file.txt>
@@ -38,7 +38,7 @@ while there is more to read in <file.txt>
 	assign word to current_char 
 if cur_char ∈ {' '}/ignore whitespace
 	getnextword:
-if cur_char ∈ {'/'}
+if cur_char ∈ {'/'}    //note this does not take into account the dfa will need to be modified
 	word position + 1 // cannot call getnextword , as it would call scanner 
 	if cur_char ∈ {'*'}
 		while( cur_char != */)
@@ -65,7 +65,6 @@ if cur_char ∈ {-}
 	output: "minus"
 	getnextword():
 
-
 getnextword() psuedo code
 function name: getnextword()
 input: none
@@ -74,5 +73,5 @@ for current word position
 	word position +1
 	scanner(<input file.txt>) // call scanner 
 	if end of file
-		break
+		end
 	
