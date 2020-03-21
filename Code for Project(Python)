@@ -1,6 +1,8 @@
 def Scanner(fname):
     file=open(fname,"r")
+#newlines were breaking project so i replaced them with random characters
     read=file.read().replace("\n","#$09")
+#also concatenated a fake newline onto end so it never got string out of bounds error
     read+="#$09"
     i = 0
     tokens = "("
