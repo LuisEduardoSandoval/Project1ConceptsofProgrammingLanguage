@@ -1,0 +1,54 @@
+Data Structures Used:
+I used a string to store in the text from the file of tokens. 
+I will then iterate over the string making sure the tokens in the file are valid.
+
+Pseudo-Code:
+Function Name:  Scanner
+input:  filename.txt
+output: list of tokens in file
+plan:
+skip any initial white space (spaces, tabs, and newlines)
+if cur char ? { plus( + ) , minus( - ) , times( * ) }
+	return the corresponding single-character token
+if cur char =  colon( : ) 
+	read the next character
+	if it is ‘=’ then return assign else announce an error
+if cur char = ‘/’
+	peek at the next character
+if it is ‘*’ or ‘/’
+	read additional characters until “*/” or newline is seen, respectively
+	jump back to top of code
+	else return div
+if cur char =  period(.)
+	read the next character
+	if it is a digit
+		read any additional digits
+		return number
+	else announce an error
+if cur char is a digit
+	read any additional digits and at most one decimal point
+	return number
+if cur char is a letter
+	read any additional letters and digits
+	check to see whether the resulting string is read or write
+	if so then return the corresponding token
+	else return id
+else announce an error
+
+Test Cases:
+
+read
+/*
+foo
+bar */
+*
+five 5   
+Reason: To see if scanner works
+
+:)
+Reason: To see if bad assign leads to error
+
+78.a
+Reason: To make sure bad number leads to error
+
+Contributors: Garrett Olsen and Luis Sandoval
