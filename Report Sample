@@ -8,23 +8,28 @@ input:  filename.txt
 output: list of tokens in file
 plan:
 skip any initial white space (spaces, tabs, and newlines)
+if cur char = ‘/’ //changed hierarchy comment was first in DFA
+	peek at the next character
+if it is '/' //follows dfa 
+	if there is a new line
+		jump back to top
+if it is ‘*’ 
+	read additional characters until “*/” or newline is seen, respectively
+	jump back to top of code
+	else return div
+
+	else announce an error
 if cur char ? { plus( + ) , minus( - ) , times( * ) }
 	return the corresponding single-character token
 if cur char =  colon( : ) 
 	read the next character
 	if it is ‘=’ then return assign else announce an error
-if cur char = ‘/’
-	peek at the next character
-if it is ‘*’ or ‘/’
-	read additional characters until “*/” or newline is seen, respectively
-	jump back to top of code
-	else return div
 if cur char =  period(.)
 	read the next character
 	if it is a digit
 		read any additional digits
 		return number
-	else announce an error
+
 if cur char is a digit
 	read any additional digits and at most one decimal point
 	return number
