@@ -1,0 +1,114 @@
+def Scanner(fname):
+    file=open(fname,"r")
+    read=file.read().replace("\n","#$09")
+    read+="#$09"
+    i = 0
+    tokens = "("
+    while i<len(read):
+        if read[i] == " ":
+            i+=1
+            continue
+        if read[i:i+2] == "\t":
+            i+=2
+            continue
+        if read[i:i+4] == "#$09":
+            i+=4
+            continue
+        if read[i] == "/":
+            i+=1
+            if read[i] == "/":
+                while(read[i:i+4] != "#$09"):
+                    i+=1
+                i+=4
+                continue
+            if read[i] == "*":
+                i+=1
+                while (i<len(read)):
+                    if read[i] == "*" and read[i+1] == "/":
+                        i+=2
+                        break
+                    i+=1
+                if i<len(read):
+                    continue
+                else:
+                    print("error.")
+                    break
+            else:
+                tokens+="div, "
+                continue
+        if read[i] == "(":
+            tokens+="lparen, "
+            i+=1
+            continue
+        if read[i] == ")":
+            tokens+="rparen, "
+            i+=1
+            continue
+        if read[i] == "+":
+            tokens+="plus, "
+            i+=1
+            continue
+        if read[i] == "-":
+            tokens+="minus, "
+            i+=1
+            continue
+        if read[i] == "*":
+            tokens+="times, "
+            i+=1
+            continue
+        if read[i] == ":":
+            i+=1
+            if read[i] == "=":
+                tokens+="assign, "
+                i+=1
+                continue
+            else:
+                print("error.")
+                break
+        if read[i] == ".":
+            i+=1
+            if read[i].isdigit():
+                while read[i].isdigit():
+                    i+=1
+                tokens+="number, "
+                continue
+            else:
+                print("error.")
+                break
+        if read[i].isdigit():
+            while(i<len(read) and read[i].isdigit()):
+                i+=1
+            if i<len(read) and read[i]==".":
+                i+=1
+                if read[i].isdigit():
+                    print(tokens)
+                    while read[i].isdigit():
+                        i+=1
+                    tokens+="number, "
+                    continue
+                else:
+                    print("error.")
+                    break
+            else:
+                tokens+="number, "
+                continue
+        if read[i:i+4] == "read":
+            tokens+="read, "
+            i+=4
+            continue
+        if read[i:i+5] == "write":
+            tokens+="write, "
+            i+=5
+            continue
+        if (read[i].isalpha()):
+            while read[i].isalpha():
+                i+=1
+            tokens+="id, "
+            continue
+        else:
+            print("error.")
+            break
+    if(i==len(read)):
+        tokens=tokens[0:len(tokens)-2]
+        tokens+=")."
+        print(tokens)
