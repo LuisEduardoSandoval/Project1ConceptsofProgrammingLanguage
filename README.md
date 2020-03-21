@@ -42,7 +42,7 @@ while there is more to read in <file.txt>
 if cur_char ∈ {' '}/ignore whitespace
 	getnextword:
 
-if cur_char ∈ {'/'}    //note this does not take into account the dfa will need to be modified
+if cur_char ∈ {'/'}    //note this does not take into account the dfa will need to be modified, division and comment in dfa
 	word position + 1 // cannot call getnextword , as it would call scanner 
 	if cur_char ∈ {'*'}
 		while( cur_char != */)
@@ -58,15 +58,26 @@ if cur_char ∈ {'/'}    //note this does not take into account the dfa will nee
 else 
 		output: "division"
 		getnextword:
-if cur_char ∈ {:=}
-	output: "assign"
-	getnextword:
+
+if cur_char ∈ {(} //operators in dfa
+	output: "lparen"
+if cur_char ∈ {)}
+	output: "rparen"
 if cur_char ∈ {+}
 	output: "plus"
 	getnextword():
 if cur_char ∈ {-}
 	output: "minus"
 	getnextword():
+if cur_char ∈ {*}
+	output: "times"
+
+
+if cur_char ∈ {:=} //assignment in dfa
+	output: "assign"
+	getnextword:
+
+
 
 getnextword() psuedo code
 function name: getnextword()
