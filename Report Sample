@@ -8,10 +8,7 @@ input:  filename.txt
 output: list of tokens in file
 plan:
 skip any initial white space (spaces, tabs, and newlines)
-if cur char = "read" 
-	return read
-if cur char = "write"
-	return write
+
 if cur char = ‘/’ //changed hierarchy comment was first in DFA
 	peek at the next character
 if it is '/' //follows dfa 
