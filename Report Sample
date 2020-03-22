@@ -17,6 +17,8 @@ if cur char = ‘/’ //changed hierarchy comment was first in DFA
 if it is '/' //follows dfa 
 	if there is a new line
 		jump back to top
+	else 
+		end
 if it is ‘*’ 
 	read additional characters until “*/” or newline is seen, respectively
 	jump back to top of code
