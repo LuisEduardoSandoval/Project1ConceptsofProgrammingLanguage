@@ -2,6 +2,8 @@ Data Structures Used:
 I used a string to store in the text from the file of tokens. 
 I will then iterate over the string making sure the tokens in the file are valid.
 
+
+
 Pseudo-Code:
 Function Name:  Scanner
 input:  filename.txt
@@ -9,35 +11,35 @@ output: list of tokens in file
 plan:
 skip any initial white space (spaces, tabs, and newlines)
 
-if cur char = ‘/’ //changed hierarchy comment was first in DFA
-	peek at the next character
-if it is '/' //follows dfa 
-	if there is a new line
-		jump back to top
+if cur char = ‘/’ //	the DFA begins by checking for a token '/' state 1
+	peek at the next character //it then asks to check for the next line state 2
+if it is '/' // if the next token is another '/' the dfa moves to state 3
+	if there is a new line 
+		jump back to top //if the DFA identifies a new line it returns to state 1
 	else 
-		end
-if it is ‘*’ 
-	read additional characters until “*/” or newline is seen, respectively
-	jump back to top of code
-	else return div
+		end 
+if it is ‘*’ // next the dfa checks for '*' if one is found the state moves to state 4
+	read additional characters until “*/” or newline is seen, respectively //the dfa then checks if the next lines contain '* or /' in this specific order moving to state 5 and state 6 respectivly 
+	jump back to top of code // the state is returned to 1 in the dfa
+	else return div // if the dfa does not find any token other than '/' it will remain in state 2 which is final and returns division
 
 	else announce an error
-if cur char ? { plus( + ) , minus( - ) , times( * ) }
-	return the corresponding single-character token
-if cur char =  colon( : ) 
+if cur char ? { plus( + ) , minus( - ) , times( * ) } //the dfa checks for tokens in states 6,7,8,9,10 in their respective order
+	return the corresponding single-character token // if the token is found then it will return that desired final state
+if cur char =  colon( : ) // the dfa checks for token ':' if this token is found the dfa moves to state 11
+	read the next character 
+	if it is ‘=’ then return assign else announce an error //the dfa now checks for '=' token, if it is found it moves to state 12 and is finalized returning "assign"
+if cur char =  period(.) // the dfa now checks for the token '.' which corrisponds to state 13
 	read the next character
-	if it is ‘=’ then return assign else announce an error
-if cur char =  period(.)
-	read the next character
-	if it is a digit
+	if it is a digit // the dfa now checks for the regular expression digit, if digits are found the dfa moves to state 15 respectivley gets finalized and returns number
 		read any additional digits
 		return number
 
-if cur char is a digit
-	read any additional digits and at most one decimal point
+if cur char is a digit //the dfa checks for digits corresponding to state 14 if one is found this state can be final, or it can move on according to the longest possible token rule
+	read any additional digits and at most one decimal point // the dfa checks for any more possible numbers and verifies the last valid token returning number in states 14 and 15
 	return number
-if cur char is a letter
-	read any additional letters and digits
+if cur char is a letter // the dfa checks for letters corresponding to state 16 
+	read any additional letters and digits // any aditional letters or numbers are checked returning back to state 16 it is then finalized or verified if it is read or write.
 	check to see whether the resulting string is read or write
 	if so then return the corresponding token
 	else return id
@@ -52,6 +54,8 @@ bar */
 *
 five 5   
 Reason: To see if scanner works
+Code following DFA
+	the DFA begins by checking for a token '/'
 
 :)
 Reason: To see if bad assign leads to error
