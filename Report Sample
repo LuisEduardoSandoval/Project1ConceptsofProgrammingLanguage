@@ -40,7 +40,7 @@ if cur char is a digit //the dfa checks for digits corresponding to state 14 if 
 	return number
 if cur char is a letter // the dfa checks for letters corresponding to state 16 
 	read any additional letters and digits // any aditional letters or numbers are checked returning back to state 16 it is then finalized or verified if it is read or write
-	check to see whether the resulting string is read or write and if so the dfa moves onto another state
+	check to see whether the resulting string is read or write and if so the dfa moves to state 17 for read or state 18 for write
 	if so then return the corresponding token
 	else return id
 else announce an error
