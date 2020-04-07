@@ -1,28 +1,34 @@
 def Scanner(fname):
     file=open(fname,"r")
-#newlines were breaking project so i replaced them with random characters
+#newlines were not getting read correctly so i replaced them with random characters
     read=file.read().replace("\n","#$09")
-#also concatenated a fake newline onto end so it never got string out of bounds error
+#also concatenated a fake newline onto end so it always ended properly
     read+="#$09"
     i = 0
     tokens = "("
-    while i<len(read):
-        if read[i] == " ":
+    while (i<len(read)):
+#check for space
+        if (read[i] == " "):
             i+=1
             continue
+#check for tab
         if read[i:i+2] == "\t":
             i+=2
             continue
+#check for newline, \n was not being read so i replaced it with these random characters
         if read[i:i+4] == "#$09":
             i+=4
             continue
+#check for \
         if read[i] == "/":
             i+=1
+#for comment of //
             if read[i] == "/":
                 while(read[i:i+4] != "#$09"):
                     i+=1
                 i+=4
                 continue
+#for comment of /*
             if read[i] == "*":
                 i+=1
                 while (i<len(read)):
@@ -35,29 +41,36 @@ def Scanner(fname):
                 else:
                     print("error.")
                     break
+#for division symbol
             else:
                 tokens+="div, "
                 continue
+#for left parenthesis
         if read[i] == "(":
             tokens+="lparen, "
             i+=1
             continue
+#for right parenthesis
         if read[i] == ")":
             tokens+="rparen, "
             i+=1
             continue
+#for plus
         if read[i] == "+":
             tokens+="plus, "
             i+=1
             continue
+#for minus
         if read[i] == "-":
             tokens+="minus, "
             i+=1
             continue
+#for times
         if read[i] == "*":
             tokens+="times, "
             i+=1
             continue
+#for assign (:=)
         if read[i] == ":":
             i+=1
             if read[i] == "=":
@@ -67,6 +80,7 @@ def Scanner(fname):
             else:
                 print("error.")
                 break
+#for .number
         if read[i] == ".":
             i+=1
             if read[i].isdigit():
@@ -77,6 +91,7 @@ def Scanner(fname):
             else:
                 print("error.")
                 break
+#for number.number and number
         if read[i].isdigit():
             while(i<len(read) and read[i].isdigit()):
                 i+=1
@@ -94,23 +109,29 @@ def Scanner(fname):
             else:
                 tokens+="number, "
                 continue
-        if read[i:i+4] == "read":
-            tokens+="read, "
-            i+=4
-            continue
-        if read[i:i+5] == "write":
-            tokens+="write, "
-            i+=5
-            continue
+#for ids, checks for if id is read or write before checking for id
         if (read[i].isalpha()):
-            while read[i].isalpha():
-                i+=1
-            tokens+="id, "
-            continue
+            if read[i:i+4] == "read":
+                tokens+="read, "
+                i+=4
+                continue
+            if read[i:i+5] == "write":
+                tokens+="write, "
+                i+=5
+                continue
+            else:
+                while read[i].isalpha():
+                    i+=1
+                tokens+="id, "
+                continue
         else:
             print("error.")
             break
+#checks to make sure it went thru whole file before printing tokens
     if(i==len(read)):
         tokens=tokens[0:len(tokens)-2]
         tokens+=")."
         print(tokens)
+
+#function call change txt file to txt file you want      
+Scanner("sample.txt")
