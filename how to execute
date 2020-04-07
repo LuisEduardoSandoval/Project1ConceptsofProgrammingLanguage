@@ -1,0 +1,5 @@
+for running the scanner function:
+just navigate to bottom of python file 
+where it says Scanner("sample.txt")
+change sample.txt to text file that you want to 
+parse for tokens, make sure text file is in same location as python stuff
