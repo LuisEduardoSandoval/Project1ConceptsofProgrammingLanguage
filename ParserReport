@@ -1,0 +1,102 @@
+report
+1)introduction: 
+	
+Following the developement of a simple interperter we are now asked to implement this within a parser based on the previous tokens.
+using the following context free grammer
+<program> → <stmt list> $$
+<stmt list> → <stmt> <stmt list> | e
+<stmt> → id assign <expr> | read id | write <expr>
+<expr> → <term> <term tail>
+<term tail> → <add op> <term> <term tail> | e
+<term> → <factor> <fact tail>
+<fact tail> → <mult op> <factor> <fact tail> | e
+<factor> → lparen <expr> rparen | id | number
+<add op> → plus | minus
+<mult op> → times | div
+the important idea's necessary are recursive descent parsers, the abilities to define functions and the use of terminals and non-terminals to define specific characters and structures for a parser.
+
+ 2) psuedocode:
+Program(): 
+	print(program)
+		call stmt_list
+		print(/program)
+<Stmt List>():
+	print(stmtlist)
+	call <stmt>
+	if  string is empty
+		end, accepted token
+	print(/stmtlist)
+<stmt>():
+	if char is alpha()
+		it is id assign
+		call <expr>
+	if string is read 
+		call <id>
+	if string is write
+		call <expr>
+<expr>():
+	call term
+	if term returns false 
+		call term tail
+		
+<term>():
+	call factor
+	
+<term_tail>:
+	if char is add_op == true
+		and next char is term
+			accepted token
+			print token
+	else
+		accepted token
+		print(empty set)
+			
+<factor>():
+	print("<factor")
+	if char is "("
+		if char is alpha or is number 
+			if char is ")"
+				accepted token
+				print token
+	if char is alpha
+		token is id
+		accepted token
+	if char is num
+		token is number
+		accepted token
+	else: 
+		call factor_tail	
+	print("<factor")
+factor_tail():
+	if char is mult_op == True
+		if next char factor == true
+			if next char is mult_op == True
+				accepted token
+				print token
+add_op():
+	if char is +
+		add op =true
+	if char is -
+		add op = true
+	else 
+		char op is false
+mult op():
+	if char is *
+		mult op is true
+	if char is /
+		mult op is true
+	else 
+		mult op is false
+report: to design a recursive descent parser we must first understand the language and its strings in the given description we a given read a which returns an xml like tree design. We must define the nonterminals and use recursive calls to achieve an xml like tree. the terminals will also be defined however these terminals will have statements within them to order the tree. therefore if a given statement is found the program can select the best path to the final token and print the tree. as the tree would print for every token; the program is written so the program would close once it is done testing the first string
+test cases:
+	1+1
+	read a 
+	write q
+	2+2+3+4+5-1+2
+	@
+2--2
+2*2
+2/2
+
+5.) Acknowledgement Edward Wertz
+	
