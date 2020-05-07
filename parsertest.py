@@ -1,103 +1,89 @@
-
 def Scanner(fname):
-
-
     file=open(fname,"r")
 #newlines were not getting read correctly so i replaced them with random characters
     read=file.read().replace("\n","#$09")
 #also concatenated a fake newline onto end so it always ended properly
     read+="#$09"
-    n = 0
-    j=0
-    k=0
     i = 0
     tokens = "("
     while (i<len(read)):
-        def Program(): #defining <program>
-            print("<Program>") 
-            if read[i] == "$": #if $ is found end 
-                print("\t$")
-            if read[i:i+4] == "read": #if read is found 
-                n = i+4 # n takes i value for end of read 
-                while read[n] == " ":# while n is whitespace
-                    n+=1 #add 1
-                if read[n].isalpha:
-                    factor #call factor for n
-                
-                stmt_list()
-            if read[i:i+5] == "write":
-                n = i+5
-                while read[n] == " ":
-                    n+=1
-                if read[n].isalpha:
-                    factor
-                stmt_list()
-            else:
-                print("none")
-                
-                
+        def Program():
+            print("<Program>")
+            stmt_list()
             print("</Program>")
-
+            
         def stmt_list():
-            print("\t<stmt_list>")
+            print("\t<Stmt_List>")
             stmt()
-            print("\t</stmt_list>")
+    
+            #stmt_list()
+            print("\t</Stmt_List>")
+
         def stmt():
+            n = 0
+            stmt_l = False
             print("\t\t<stmt>")
+            
             if read[i:i+4] == "read":
-                print("\t\t\t<read>")
-                print("\t\t\t\tread")
-                print("\t\t\t</read>")
-                factor()
-                
+                read_()
+                n=0
+                while read[i+n+4] == " ":
+                    n+=1
+                if read[i+n+4].isalpha():
+                    stmt_l = True
+                else:
+                    print("error read has no id")
+
+
             if read[i:i+5] == "write":
-                print("\t\t\t<write>")
-                print("\t\t\t\twrite")
-                print("\t\t\t</write>")
-                factor()
+                write_()
+                n=0
+                while read[i+n+5] == " ":
+                    n+=1
+                if read[i+n+5].isalpha():
+                    q=0
+                
 
-                
-                
+            
+            if read[i+n+4].isalpha(): # checks a previous statement list to see if a new statment is an id
+                id_(i+n+4)
+             
+            elif read[i].isalpha:
+                id_(i)
+            else:
+                print("error could not parse")
             print("\t\t</stmt>")
-        def factor():
+            if stmt_l == True:
+                print("\t\t<stmt_list>")
+                print("\t\t</stmt_list>")
+            #stmt_list()
+
+
+        def id_(i):
+            n = i
+            j = 0
+            while read[n].isalpha():
+                n+=1
+                j+=1
             
-            if read[i].isalpha():
-                n=i #initialize variables
-                j=0
-                k=n
-                if read[i:i+4] == "read": #if read is found
-                    n+=4 # n assinged to i+4 so i is not modified
-                    if read[n] ==" ": 
-                        n+=1
-                        k=n
-                        while read[k].isalpha():
-                            
-                            j+=1
-                            k+=1
-                if read[i:i+5] == "write":
-                    n+=5
-                    if read[n] == " ":
-                        n+=1
-                        k=n
-                        while read[k].isalpha():
-                            j+=1
-                            k+=1
-
-                        
-
-
-                    
-              
-                        
+            
+            
             print("\t\t\t<id>")
-            print ("\t\t\t\t"+read[n:n+j])
+            #while read[n].isalpha:
+                #n+=1
+            print("\t\t\t\t\t"+read[i:i+j])
             print("\t\t\t</id>")
-            
-                
-                
 
+        def read_():
+            print("\t\t\t<read>")
+            print("\t\t\t\tread")
+            print("\t\t\t</read>")
+        def write_():
+            print("\t\t\t<write>")
+            print("\t\t\t\twrite")
+            print("\t\t\t</write>")
+            
 #check for space
-        
         if (read[i] == " "):
             i+=1
             continue
@@ -108,11 +94,6 @@ def Scanner(fname):
 #check for newline, \n was not being read so i replaced it with these random characters
         if read[i:i+4] == "#$09":
             i+=4
-            continue
-#check for $
-        if (read[i] == "$"):
-            Program()
-            i+=1
             continue
 
 #check for \
@@ -142,7 +123,6 @@ def Scanner(fname):
                 tokens+="div, "
                 continue
 #for left parenthesis
-
         if read[i] == "(":
             tokens+="lparen, "
             i+=1
@@ -211,7 +191,6 @@ def Scanner(fname):
             if read[i:i+4] == "read":
                 Program()
                 tokens+="read, "
-                
                 i+=4
                 continue
             if read[i:i+5] == "write":
@@ -220,9 +199,12 @@ def Scanner(fname):
                 i+=5
                 continue
             else:
+                Program()
                 while read[i].isalpha():
                     i+=1
+                
                 tokens+="id, "
+                
                 continue
         else:
             print("error.")
@@ -230,15 +212,8 @@ def Scanner(fname):
 #checks to make sure it went thru whole file before printing tokens
     if(i==len(read)):
         tokens=tokens[0:len(tokens)-2]
-        #tokens+=")."
-        #print(tokens)
-
-
-
-
-
-
-
+        tokens+=")."
+        print(tokens)
 
 #function call change txt file to txt file you want      
 Scanner("sample.txt")
