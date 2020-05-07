@@ -1,20 +1,27 @@
+import sys
 def Scanner(fname):
     file=open(fname,"r")
 #newlines were not getting read correctly so i replaced them with random characters
     read=file.read().replace("\n","#$09")
 #also concatenated a fake newline onto end so it always ended properly
+#the program function will be called everytime a token has been found therefore a tree will be generated
+#for every token
     read+="#$09"
     i = 0
     tokens = "("
     while (i<len(read)):
         def Program():
+            
             print("<Program>")
             stmt_list()
             print("</Program>")
+            sys.exit("compiled")
+
             
         def stmt_list():
             print("\t<Stmt_List>")
-            stmt()
+            stmt()            
+
     
             #stmt_list()
             print("\t</Stmt_List>")
@@ -114,18 +121,28 @@ def Scanner(fname):
             if read[i] == "-":
                 print("\t\t\t\t<term_tail>")
                 add_op(i)
+                while read[i+j] == " ":
+                    j+=1
+                if read[i+j].isdigit():
+                    term(i+j)
                 print("\t\t\t\t</term_tail>")
                 
         def factor(i):
             n = 0
             j = 0
             k = 0
+            l = 0
             #print(read[i])
             if read[i] == "(":
+                print("lparen")
                 while read[i+j] == " ":
                     j+=1
-                if read[i+j].isalpha():
-                    print("needs expression")
+                if read[i+l].isdigit():
+                    l+=1
+                if read[i+l] == ")":
+                    
+                    expr(i+j)
+                    print("rparen")
             if read[i].isdigit():
                 print("\t\t\t\t\t<factor>")
                 while read[i+j].isdigit():
@@ -135,7 +152,9 @@ def Scanner(fname):
                 print("\t\t\t\t\t</number>")
                 print("\t\t\t\t\t</factor>")
                 if read[i+j] == "+":
-                    term_tail(i+j) #calls term tail for operator 
+                    term_tail(i+j) #calls term tail for operator
+                if read[i+j] == "-":
+                    term_tail(i+j)
                 
 
             elif read[i].isalpha():
@@ -182,7 +201,7 @@ def Scanner(fname):
             if read[i+n] == "+":
                 print("\t\t\t\t\tadd operation")
             if read[i+n] == "-":
-                print("minus Operation")
+                print("\t\t\t\t\t<minus Operation>")
             
             
 #check for space
@@ -226,7 +245,6 @@ def Scanner(fname):
                 continue
 #for left parenthesis
         if read[i] == "(":
-            Program()
             tokens+="lparen, "
             i+=1
             continue
@@ -306,7 +324,6 @@ def Scanner(fname):
                 i+=5
                 continue
             else:
-                Program()
                 while read[i].isalpha():
                     i+=1
                 
