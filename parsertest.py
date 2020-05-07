@@ -23,16 +23,25 @@ def Scanner(fname):
             n = 0
             stmt_l = False
             print("\t\t<stmt>")
+            if read[i].isalpha:
+                if read[i:i+4] != "read":
+                    if read[i:i+5] != "write":
+                        if read[i].isdigit() == False:
+                            expr(i)
+                            #print("Why man")
             
             if read[i:i+4] == "read":
                 read_()
                 n=0
                 while read[i+n+4] == " ":
                     n+=1
+                print(n)
                 if read[i+n+4].isalpha():
                     stmt_l = True
-                else:
-                    print("error read has no id")
+                if read[i+n+4].isdigit():
+                    print("error read value")
+                    
+                    
 
 
             if read[i:i+5] == "write":
@@ -41,23 +50,95 @@ def Scanner(fname):
                 while read[i+n+5] == " ":
                     n+=1
                 if read[i+n+5].isalpha():
-                    q=0
+                    stmt_1 = True
+                    expr(i+n+5)
+                if read[i+n+5].isdigit():
+                    stmt_1 = True
+                    expr(i+n+5)
                 
 
             
             if read[i+n+4].isalpha(): # checks a previous statement list to see if a new statment is an id
                 id_(i+n+4)
-             
-            elif read[i].isalpha:
-                id_(i)
-            else:
-                print("error could not parse")
+
+                
+
+            
+            if read[i].isalpha() == False:
+                expr(i)
+                
             print("\t\t</stmt>")
             if stmt_l == True:
                 print("\t\t<stmt_list>")
                 print("\t\t</stmt_list>")
             #stmt_list()
 
+
+
+        def expr(i):
+            print("<expr>")
+            term(i)
+            if read[i] == "+":
+                
+                term_tail(i)
+                
+            if read[i] == "-":
+                #print("<expr>")
+                term_tail(i)
+                #print("</expr>")
+            print("</expr>")
+            
+
+        def term(i):
+            factor(i)
+        def term_tail(i):
+            n = 0
+            if read[i] == "+":
+                print("<term_tail>")
+                add_op(i)
+                while read[n+i] == " ":
+                    n=n+1
+                if read[i+n] != " ":
+                    print("calling term")
+                    print(n)
+                    term(i+n)
+                    
+                print("</term_tail>")
+
+
+                    
+            if read[i] == "-":
+                print("<term_tail>")
+                add_op(i)
+                print("</term_tail>")
+                
+        def factor(i):
+            n = 0
+            j = 0
+            k = 0
+            #print(read[i])
+            if read[i] == "(":
+                while read[i+j] == " ":
+                    j+=1
+                if read[i+j].isalpha():
+                    print("needs expression")
+            if read[i].isdigit():
+                print("<factor>")
+                while read[i+j].isdigit():
+                    j+=1
+                print("number")
+                print(read[i:i+n])
+                print("</factor>")
+                
+
+            elif read[i].isalpha():
+                print("<factor>")
+                print("<id>")
+                while read[i+k].isalpha():
+                    k+=1
+                print(read[i:i+k])
+                print("<id>")
+                print("</factor>")
 
         def id_(i):
             n = i
@@ -82,6 +163,20 @@ def Scanner(fname):
             print("\t\t\t<write>")
             print("\t\t\t\twrite")
             print("\t\t\t</write>")
+        def mult_op(i):
+            if read[i+n] == "*":
+                print("<times_operation>")
+                print("</times_operation>")
+            if read[i+n] == "/":
+                print("<Div_operation>")
+                print("</Div_operation>")
+        def add_op(i):
+            n=0
+            if read[i+n] == "+":
+                print("add operation")
+            if read[i+n] == "-":
+                print("minus Operation")
+            
             
 #check for space
         if (read[i] == " "):
@@ -124,6 +219,7 @@ def Scanner(fname):
                 continue
 #for left parenthesis
         if read[i] == "(":
+            Program()
             tokens+="lparen, "
             i+=1
             continue
@@ -135,11 +231,13 @@ def Scanner(fname):
 #for plus
         if read[i] == "+":
             tokens+="plus, "
+            Program()
             i+=1
             continue
 #for minus
         if read[i] == "-":
             tokens+="minus, "
+            Program()
             i+=1
             continue
 #for times
