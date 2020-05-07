@@ -47,7 +47,7 @@ def Scanner(fname):
                     stmt_l = True
                 if read[i+n+4].isdigit():
                     print("error read value")
-                    
+                    sys.exit()
                     
 
 
@@ -56,12 +56,14 @@ def Scanner(fname):
                 n=0
                 while read[i+n+5] == " ":
                     n+=1
-                if read[i+n+5].isalpha():
-                    stmt_1 = True
-                    expr(i+n+5)
+
                 if read[i+n+5].isdigit():
                     stmt_1 = True
                     expr(i+n+5)
+                if read[i+n+5].isalpha():
+                    stmt_1 = True
+                    expr(i+n+5)
+
                 
 
             
@@ -81,7 +83,6 @@ def Scanner(fname):
             #stmt_list()
 
 
-
         def expr(i):
             print("\t\t\t<expr>")
             term(i)
@@ -94,17 +95,22 @@ def Scanner(fname):
                 term_tail(i)
                 #print("</expr>")
             print("\t\t\t</expr>")
-            
-
         def term(i):
-            print("\t\t\t\t<term>")
-            factor(i)
-            print("\t\t\t\t</term>")
+            #print(read[i])
+            if read[i].isalpha():
+                print("\t\t\t\t<term>")
+                factor(i)
+                print("\t\t\t\t</term>")
+            if read[i].isdigit():
+                print("\t\t\t\t<term>")
+                factor(i)
+                print("\t\t\t\t</term>")
+
         def term_tail(i):
             n = 0
             j=1
             if read[i] == "+":
-                print("\t\t\t\t<term_tail>")
+                print(read[i])
                 add_op(i)
                 while read[i+j] == " ":
                     j+=1
@@ -113,7 +119,7 @@ def Scanner(fname):
                     #print("calling term")
                    
                     term(i+j)
-                    
+            
                 print("\t\t\t\t</term_tail>")
 
 
@@ -155,7 +161,10 @@ def Scanner(fname):
                     term_tail(i+j) #calls term tail for operator
                 if read[i+j] == "-":
                     term_tail(i+j)
-                
+                if read[i+j] == "*":
+                    fact_tail(i+j)
+                if read[i+j] == "/":
+                    fact_tail(i+j)
 
             elif read[i].isalpha():
                 print("\t\t\t\t\t<factor>")
@@ -165,7 +174,32 @@ def Scanner(fname):
                 print("\t\t\t\t\t\t"+read[i:i+k])
                 print("\t\t\t\t\t<id>")
                 print("\t\t\t\t\t</factor>")
-
+                if read[i+j] == "+":
+                    term_tail(i+j) #calls term tail for operator
+                if read[i+j] == "-":
+                    term_tail(i+j)
+        def fact_tail(i):
+            j=1
+            l=0
+            print("\t\t\t\t\t<fact_tail>")
+            if read[i] == "*":
+                #print(read[i])
+                mult_op(i)
+                while read[i+j] == " ":
+                    j+=1
+                #print(read[i+j])
+                if read[i+j].isdigit():
+                    term(i+j)
+            if read[i] == "/":
+                mult_op(i)
+                while read[i+j] == " ":
+                    j+=1
+                if read[i+j].isdigit():
+                    term(i+j)
+                
+                    
+                    
+            print("\t\t\t\t\t</fact_tail>")
         def id_(i):
             n = i
             j = 0
@@ -190,12 +224,13 @@ def Scanner(fname):
             print("\t\t\t\twrite")
             print("\t\t\t</write>")
         def mult_op(i):
+            n=0
             if read[i+n] == "*":
-                print("<times_operation>")
-                print("</times_operation>")
+                print("\t\t\t\t\t<times_operation>")
+                print("\t\t\t\t\t</times_operation>")
             if read[i+n] == "/":
-                print("<Div_operation>")
-                print("</Div_operation>")
+                print("\t\t\t\t\t<Div_operation>")
+                print("\t\t\t\t\t</Div_operation>")
         def add_op(i):
             n=0
             if read[i+n] == "+":
