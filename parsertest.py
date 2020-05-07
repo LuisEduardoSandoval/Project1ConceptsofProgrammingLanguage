@@ -91,20 +91,21 @@ def Scanner(fname):
 
         def term(i):
             print("\t\t\t\t<term>")
-            
             factor(i)
             print("\t\t\t\t</term>")
         def term_tail(i):
             n = 0
+            j=1
             if read[i] == "+":
                 print("\t\t\t\t<term_tail>")
                 add_op(i)
-                while read[n+i] == " ":
-                    n=n+1
-                if read[i+n] != " ":
-                    print("calling term")
-                    print(n)
-                    term(i+n)
+                while read[i+j] == " ":
+                    j+=1
+                
+                if read[i+j].isdigit():
+                    #print("calling term")
+                   
+                    term(i+j)
                     
                 print("\t\t\t\t</term_tail>")
 
@@ -133,6 +134,8 @@ def Scanner(fname):
                 print("\t\t\t\t\t\t"+read[i:i+j])
                 print("\t\t\t\t\t</number>")
                 print("\t\t\t\t\t</factor>")
+                if read[i+j] == "+":
+                    term_tail(i+j) #calls term tail for operator 
                 
 
             elif read[i].isalpha():
@@ -177,7 +180,7 @@ def Scanner(fname):
         def add_op(i):
             n=0
             if read[i+n] == "+":
-                print("add operation")
+                print("\t\t\t\t\tadd operation")
             if read[i+n] == "-":
                 print("minus Operation")
             
