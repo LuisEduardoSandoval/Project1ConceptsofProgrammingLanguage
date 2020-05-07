@@ -35,7 +35,7 @@ def Scanner(fname):
                 n=0
                 while read[i+n+4] == " ":
                     n+=1
-                print(n)
+                #print(n)
                 if read[i+n+4].isalpha():
                     stmt_l = True
                 if read[i+n+4].isdigit():
@@ -76,7 +76,7 @@ def Scanner(fname):
 
 
         def expr(i):
-            print("<expr>")
+            print("\t\t\t<expr>")
             term(i)
             if read[i] == "+":
                 
@@ -86,15 +86,18 @@ def Scanner(fname):
                 #print("<expr>")
                 term_tail(i)
                 #print("</expr>")
-            print("</expr>")
+            print("\t\t\t</expr>")
             
 
         def term(i):
+            print("\t\t\t\t<term>")
+            
             factor(i)
+            print("\t\t\t\t</term>")
         def term_tail(i):
             n = 0
             if read[i] == "+":
-                print("<term_tail>")
+                print("\t\t\t\t<term_tail>")
                 add_op(i)
                 while read[n+i] == " ":
                     n=n+1
@@ -103,14 +106,14 @@ def Scanner(fname):
                     print(n)
                     term(i+n)
                     
-                print("</term_tail>")
+                print("\t\t\t\t</term_tail>")
 
 
                     
             if read[i] == "-":
-                print("<term_tail>")
+                print("\t\t\t\t<term_tail>")
                 add_op(i)
-                print("</term_tail>")
+                print("\t\t\t\t</term_tail>")
                 
         def factor(i):
             n = 0
@@ -123,22 +126,23 @@ def Scanner(fname):
                 if read[i+j].isalpha():
                     print("needs expression")
             if read[i].isdigit():
-                print("<factor>")
+                print("\t\t\t\t\t<factor>")
                 while read[i+j].isdigit():
                     j+=1
-                print("number")
-                print(read[i:i+n])
-                print("</factor>")
+                print("\t\t\t\t\t<number>")
+                print("\t\t\t\t\t\t"+read[i:i+j])
+                print("\t\t\t\t\t</number>")
+                print("\t\t\t\t\t</factor>")
                 
 
             elif read[i].isalpha():
-                print("<factor>")
-                print("<id>")
+                print("\t\t\t\t\t<factor>")
+                print("\t\t\t\t\t<id>")
                 while read[i+k].isalpha():
                     k+=1
-                print(read[i:i+k])
-                print("<id>")
-                print("</factor>")
+                print("\t\t\t\t\t\t"+read[i:i+k])
+                print("\t\t\t\t\t<id>")
+                print("\t\t\t\t\t</factor>")
 
         def id_(i):
             n = i
@@ -268,11 +272,13 @@ def Scanner(fname):
                 break
 #for number.number and number
         if read[i].isdigit():
+            Program()
             while(i<len(read) and read[i].isdigit()):
                 i+=1
             if i<len(read) and read[i]==".":
                 i+=1
                 if read[i].isdigit():
+                    
                     print(tokens)
                     while read[i].isdigit():
                         i+=1
